@@ -12,42 +12,45 @@ import androidx.lifecycle.MutableLiveData;
 
 public class LoginViewModel extends ViewModel {
     private final MutableLiveData<User> userLiveData = new MutableLiveData<>();
+    private final MutableLiveData<String> authErrorLiveData = new MutableLiveData<>();
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
-    // Getter for observing userLiveData in the View
+    // Getter for userLiveData
     public LiveData<User> getUserLiveData() {
         return userLiveData;
     }
 
-    // Method for login
-    public void loginUser(String username, String password) {
-        firebaseAuth.signInWithEmailAndPassword(username, password)
+    // Getter for authErrorLiveData
+    public LiveData<String> getAuthErrorLiveData() {
+        return authErrorLiveData;
+    }
+
+    // Login method
+    public void loginUser(String email, String password) {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                         if (firebaseUser != null) {
                             User user = new User();
-                            user.setUsername(firebaseUser.getDisplayName());
-                            user.setPassword(firebaseUser.getEmail());
+                            user.setUsername(firebaseUser.getEmail()); // Use email as username
+                            // Do not store or set the password here
                             userLiveData.setValue(user);
                         }
                     } else {
-                        // Handle login failure
-                        userLiveData.setValue(null);
+                        authErrorLiveData.setValue("Login failed. Please check your credentials and try again.");
                     }
                 });
     }
 
-    // Method for account creation
-    public void createAccount(String username, String password) {
-        firebaseAuth.createUserWithEmailAndPassword(username, password)
+    // Account creation method
+    public void createAccount(String email, String password) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        // Account creation successful, you can also update userLiveData here
-                        loginUser(username, password);
+                        loginUser(email, password); // Log in after successful account creation
                     } else {
-                        // Handle account creation failure
-                        userLiveData.setValue(null);
+                        authErrorLiveData.setValue("Account creation failed. Please try again later.");
                     }
                 });
     }
