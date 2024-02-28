@@ -86,7 +86,7 @@
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="237dp"
         android:layout_height="50dp"
-        android:text="Close"
+        android:text="@string/exit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

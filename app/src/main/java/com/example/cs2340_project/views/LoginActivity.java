@@ -60,6 +60,9 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, AccountCreationActivity.class);
             startActivity(intent);
         });
+
+        findViewById(R.id.closeButton).setOnClickListener(view -> finish());
+
     }
 }
 
