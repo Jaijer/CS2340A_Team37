@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.cs2340_project.model.User;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import androidx.lifecycle.MutableLiveData;
@@ -34,11 +33,11 @@ public class LoginViewModel extends ViewModel {
                         if (firebaseUser != null) {
                             User user = new User();
                             user.setUsername(firebaseUser.getEmail()); // Use email as username
-                            // Do not store or set the password here
                             userLiveData.setValue(user);
                         }
                     } else {
-                        authErrorLiveData.setValue("Login failed. Please check your credentials and try again.");
+                        authErrorLiveData.setValue("Login failed. "
+                                + "Please check your credentials and try again.");
                     }
                 });
     }
@@ -50,7 +49,8 @@ public class LoginViewModel extends ViewModel {
                     if (task.isSuccessful()) {
                         loginUser(email, password); // Log in after successful account creation
                     } else {
-                        authErrorLiveData.setValue("Account creation failed. Please try again later.");
+                        authErrorLiveData.setValue("Account creation failed."
+                                + " Please try again later.");
                     }
                 });
     }

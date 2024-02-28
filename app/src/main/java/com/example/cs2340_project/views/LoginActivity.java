@@ -48,7 +48,8 @@ public class LoginActivity extends AppCompatActivity {
 
             // Simple input validation
             if (emailText.isEmpty() || passwordText.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "Email and password cannot be empty.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Email and password cannot be empty.",
+                        Toast.LENGTH_SHORT).show();
                 return;
             }
 
