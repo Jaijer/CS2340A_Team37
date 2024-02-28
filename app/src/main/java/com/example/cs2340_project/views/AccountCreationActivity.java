@@ -29,7 +29,8 @@ public class AccountCreationActivity extends AppCompatActivity {
 
         loginViewModel.getUserLiveData().observe(this, user -> {
             if (user != null) {
-                Toast.makeText(AccountCreationActivity.this, "Account created successfully!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AccountCreationActivity.this,
+                        "Account created successfully!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(AccountCreationActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
@@ -38,7 +39,8 @@ public class AccountCreationActivity extends AppCompatActivity {
 
         loginViewModel.getAuthErrorLiveData().observe(this, errorMessage -> {
             if (errorMessage != null) {
-                Toast.makeText(AccountCreationActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                Toast.makeText(AccountCreationActivity.this,
+                        errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -48,7 +50,8 @@ public class AccountCreationActivity extends AppCompatActivity {
 
             // Simple input validation example
             if (emailText.isEmpty() || passwordText.isEmpty()) {
-                Toast.makeText(AccountCreationActivity.this, "Email and password cannot be empty.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AccountCreationActivity.this,
+                        "Email and password cannot be empty.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
