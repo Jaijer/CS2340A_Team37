@@ -14,6 +14,7 @@
         android:background="@android:color/holo_green_dark"
         android:gravity="center"
         android:text="Input Meal Screen"
+        android:padding="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,8 +38,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Home"
-            android:textSize="9sp"
+            android:textSize="11sp"
             />
+
+        <Button
+            android:id="@+id/inputMealActivityButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Meal"
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/ingredientActivityButton"
@@ -46,15 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Ingred."
-            android:textSize="10sp"/>
-
-        <Button
-            android:id="@+id/inputMealActivityButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Input Meal"
-            android:textSize="10sp"/>
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/recipeActivityButton"
@@ -62,14 +63,98 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Recipe"
-            android:textSize="8sp"/>
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/shoppingListActivityButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Shopping List"
-            android:textSize="10sp"/>
+            android:text="Cart"
+            android:textSize="11sp" />
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/mealHeader"
+        android:layout_width="255dp"
+        android:layout_height="32dp"
+        android:text="Enter a Meal"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputMealHeaderTextView"
+        app:layout_constraintVertical_bias="0.103" />
+
+    <Button
+        android:id="@+id/addMealBtn"
+        android:layout_width="256dp"
+        android:layout_height="49dp"
+        android:text="Add"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputMealHeaderTextView"
+        app:layout_constraintVertical_bias="0.575" />
+
+    <TextView
+        android:id="@+id/nameLabel"
+        android:layout_width="87dp"
+        android:layout_height="29dp"
+        android:text="Meal's name:"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.255"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.322" />
+
+    <TextView
+        android:id="@+id/calorieLabel"
+        android:layout_width="89dp"
+        android:layout_height="34dp"
+        android:text="Calorie Count:"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.252"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.412" />
+
+    <EditText
+        android:id="@+id/mealName"
+        android:layout_width="159dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text=""
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.694"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.402" />
+
+    <EditText
+        android:id="@+id/mealCalorie"
+        android:layout_width="161dp"
+        android:layout_height="37dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text=""
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.69"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.316" />
 </androidx.constraintlayout.widget.ConstraintLayout>

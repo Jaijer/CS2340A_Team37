@@ -15,6 +15,7 @@
         android:gravity="center"
         android:text="Home Screen"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -37,8 +38,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Home"
-            android:textSize="9sp"
+            android:textSize="11sp"
             />
+
+        <Button
+            android:id="@+id/inputMealActivityButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Meal"
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/ingredientActivityButton"
@@ -46,15 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Ingred."
-            android:textSize="10sp"/>
-
-        <Button
-            android:id="@+id/inputMealActivityButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Input Meal"
-            android:textSize="10sp"/>
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/recipeActivityButton"
@@ -62,15 +63,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Recipe"
-            android:textSize="8sp"/>
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/shoppingListActivityButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Shopping List"
-            android:textSize="10sp"/>
+            android:text="Cart"
+            android:textSize="11sp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
