@@ -57,5 +57,11 @@ public class AccountCreationActivity extends AppCompatActivity {
 
             loginViewModel.createAccount(emailText, passwordText);
         });
+
+        Button backBtn = findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(AccountCreationActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
     }
 }
