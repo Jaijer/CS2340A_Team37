@@ -30,6 +30,23 @@ public class InputMealActivity extends AppCompatActivity {
         EditText mealCalorie = findViewById(R.id.mealCalorie);
         Button addMealBtn = findViewById(R.id.addMealBtn);
 
+        addMealBtn.setOnClickListener(v -> {
+
+        });
+
+
+
+        //Sprint 2 Task 5:
+        Button showDailyCalorieIntakeOverPastMonthBtn = findViewById(R.id.showDailyCalorieIntakeOverPastMonthBtn);
+        Button showComparisonBetweenIntakeAndGoalBtn = findViewById(R.id.showComparisonBetweenIntakeAndGoalBtn);
+
+        showDailyCalorieIntakeOverPastMonthBtn.setOnClickListener(v -> {
+
+        });
+        showComparisonBetweenIntakeAndGoalBtn.setOnClickListener(v -> {
+
+        });
+
         homeActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
