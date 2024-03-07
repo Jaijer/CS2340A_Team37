@@ -3,6 +3,7 @@ package com.example.cs2340_project.views;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.Intent;
 
@@ -26,7 +27,16 @@ public class HomeActivity extends AppCompatActivity {
         Button inputMealActivityButton = findViewById(R.id.inputMealActivityButton);
         Button recipeActivityButton = findViewById(R.id.recipeActivityButton);
         Button shoppingListActivityButton = findViewById(R.id.shoppingListActivityButton);
+        ImageView profilePic = findViewById(R.id.profilePic);
 
+
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, PersonalInfoActivity.class);
+                startActivity(intent);
+            }
+        });
         homeActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +80,5 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
-
     }
-
 }

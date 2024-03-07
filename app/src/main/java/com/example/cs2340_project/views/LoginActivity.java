@@ -2,99 +2,70 @@ package com.example.cs2340_project.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
+import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
+import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.Button;
 import android.widget.Toast;
-
 import com.example.cs2340_project.R;
 import com.example.cs2340_project.viewmodels.LoginViewModel;
-import com.google.firebase.Firebase;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.OnCompleteListener;
-
-
-import java.util.concurrent.atomic.AtomicReference;
 
 public class LoginActivity extends AppCompatActivity {
     private LoginViewModel loginViewModel;
     private FirebaseAuth firebaseAuth;
 
 
+    private EditText email;
+    private EditText password;
+    private LoginViewModel loginViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_screen);
+      
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-        // Initialize ViewModel
-        loginViewModel = new LoginViewModel();
-        firebaseAuth = FirebaseAuth.getInstance();
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
+        Button signInBtn = findViewById(R.id.signInBtn);
+        Button signUpBtn = findViewById(R.id.signUpBtn);
 
-        // Add code to handle the close button click
-        Button closeButton = findViewById(R.id.closeButton);
-        closeButton.setOnClickListener(v -> finish());
-
-        // Add code to handle the login button click
-        Button loginButton = findViewById(R.id.signInBtn);
-        loginButton.setOnClickListener(v -> {
-
-            Log.d("LoginActivity", "Button clicked.");
-
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-
-            // Get username and password from ViewModel
-            String username = loginViewModel.getUser().getUsername();
-            String password = loginViewModel.getUser().getPassword();
-
-            // Add Firebase authentication logic
-            firebaseAuth.signInWithEmailAndPassword(username, password)
-                    .addOnCompleteListener(LoginActivity.this,
-                            new OnCompleteListener<AuthResult>() {
-                        @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Log.d("LoginActivity", "User creation activated... (1/2)");
-
-                                FirebaseUser user = firebaseAuth.getCurrentUser();
-                                startActivity(intent);
-                            } else {
-                                Log.d("LoginActivity", "User creation activated... (2/2)");
-
-                                Toast.makeText(LoginActivity.this,
-                                        "Authentication failed.", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+        loginViewModel.getUserLiveData().observe(this, user -> {
+            if (user != null) {
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
         });
 
-        // Add code to handle the sign up button click
-        Button signUpButton = findViewById(R.id.signUpBtn);
-        signUpButton.setOnClickListener(v -> {
-            // Get username and password from ViewModel
-            String username = loginViewModel.getUser().getUsername();
-            String password = loginViewModel.getUser().getPassword();
-
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-
-            // Add Firebase authentication logic for account creation
-            firebaseAuth.createUserWithEmailAndPassword(username, password)
-                    .addOnCompleteListener(LoginActivity.this,
-                            new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        FirebaseUser user = firebaseAuth.getCurrentUser();
-                                        startActivity(intent);
-                                } else {
-                                        Toast.makeText(LoginActivity.this,
-                                                "Authentication failed.", Toast.LENGTH_SHORT).show();
-                                    }
-                            }
+        loginViewModel.getAuthErrorLiveData().observe(this, errorMessage -> {
+            if (errorMessage != null) {
+                Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+            }
         });
+
+        signInBtn.setOnClickListener(v -> {
+            String emailText = email.getText().toString().trim();
+            String passwordText = password.getText().toString().trim();
+
+            // Simple input validation
+            if (emailText.isEmpty() || passwordText.isEmpty()) {
+                Toast.makeText(LoginActivity.this, "Email and password cannot be empty.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            loginViewModel.loginUser(emailText, passwordText);
         });
+
+        signUpBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, AccountCreationActivity.class);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.closeButton).setOnClickListener(view -> finish());
     }
 }
+

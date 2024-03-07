@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,28 @@ public class InputMealActivity extends AppCompatActivity {
         Button inputMealActivityButton = findViewById(R.id.inputMealActivityButton);
         Button recipeActivityButton = findViewById(R.id.recipeActivityButton);
         Button shoppingListActivityButton = findViewById(R.id.shoppingListActivityButton);
+
+        //Sprint 2 Task 2:
+        EditText mealName = findViewById(R.id.mealName);
+        EditText mealCalorie = findViewById(R.id.mealCalorie);
+        Button addMealBtn = findViewById(R.id.addMealBtn);
+
+        addMealBtn.setOnClickListener(v -> {
+
+        });
+
+
+
+        //Sprint 2 Task 5:
+        Button showDailyCalorieIntakeOverPastMonthBtn = findViewById(R.id.showDailyCalorieIntakeOverPastMonthBtn);
+        Button showComparisonBetweenIntakeAndGoalBtn = findViewById(R.id.showComparisonBetweenIntakeAndGoalBtn);
+
+        showDailyCalorieIntakeOverPastMonthBtn.setOnClickListener(v -> {
+
+        });
+        showComparisonBetweenIntakeAndGoalBtn.setOnClickListener(v -> {
+
+        });
 
         homeActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
