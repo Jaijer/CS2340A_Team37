@@ -1,5 +1,6 @@
 package com.example.cs2340_project.views;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
@@ -11,6 +12,9 @@ import com.example.cs2340_project.R;
 import com.example.cs2340_project.viewmodels.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
+    private LoginViewModel loginViewModel;
+    private FirebaseAuth firebaseAuth;
+
 
     private EditText email;
     private EditText password;
@@ -20,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_screen);
-
+      
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
         email = findViewById(R.id.email);
@@ -62,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.closeButton).setOnClickListener(view -> finish());
-
     }
 }
 
