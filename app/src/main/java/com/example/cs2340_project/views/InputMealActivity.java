@@ -47,16 +47,16 @@ public class InputMealActivity extends AppCompatActivity {
                 return;
             }
 
-            int intCalorieText = Integer.parseInt(calorieText);
+            int intCalorieText;
 
-       //     try {
-       //         intCalorieText = Integer.parseInt(calorieText);
-        //    } catch (NumberFormatException e) {
-        //        Toast.makeText(InputMealActivity.this, "Calories must include only numbers.",
-        //                Toast.LENGTH_SHORT).show();
-        //        return;
-       //     }
-            
+            try {
+                intCalorieText = Integer.parseInt(calorieText);
+            } catch (NumberFormatException e) {
+                Toast.makeText(InputMealActivity.this, "Calories must include only numbers.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+
 
 
             foodDatabase.addMeal(nameText, intCalorieText);
