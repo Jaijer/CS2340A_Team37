@@ -1,6 +1,7 @@
 package com.example.cs2340_project.viewmodels;
 
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData;
 import com.example.cs2340_project.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
