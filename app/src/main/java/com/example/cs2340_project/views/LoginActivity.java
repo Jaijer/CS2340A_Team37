@@ -13,12 +13,12 @@ import com.example.cs2340_project.viewmodels.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
     private LoginViewModel loginViewModel;
-    private FirebaseAuth firebaseAuth;
+
 
 
     private EditText email;
     private EditText password;
-    private LoginViewModel loginViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
