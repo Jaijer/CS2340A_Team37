@@ -56,9 +56,7 @@ public class InputMealActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
                 return;
             }
-
-
-
+            
             foodDatabase.addMeal(nameText, intCalorieText);
         });
 
