@@ -11,13 +11,19 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cs2340_project.R;
+import com.example.cs2340_project.model.Meal;
 import com.example.cs2340_project.viewmodels.FoodDatabase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 
 public class InputMealActivity extends AppCompatActivity {
 
     private FoodDatabase foodDatabase;
     private EditText mealName;
     private EditText mealCalorie;
+    private FirebaseAuth auth;
+    private DatabaseReference databaseReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,17 +55,31 @@ public class InputMealActivity extends AppCompatActivity {
 
             int intCalorieText = Integer.parseInt(calorieText);
 
-       //     try {
-       //         intCalorieText = Integer.parseInt(calorieText);
-        //    } catch (NumberFormatException e) {
-        //        Toast.makeText(InputMealActivity.this, "Calories must include only numbers.",
-        //                Toast.LENGTH_SHORT).show();
-        //        return;
-       //     }
-            
+            try {
+            intCalorieText = Integer.parseInt(calorieText);
+            } catch (NumberFormatException e) {
+              Toast.makeText(InputMealActivity.this, "Calories must include only numbers.",
+                       Toast.LENGTH_SHORT).show();
+               return;
+            }
 
 
-            foodDatabase.addMeal(nameText, intCalorieText);
+            if (auth.getCurrentUser() != null) {
+                String userId = auth.getCurrentUser().getUid();
+                Meal meal = new Meal(nameText, intCalorieText);
+
+                // Save the meal under the user's ID in Firebase
+                databaseReference.child("Meals").child(userId).push().setValue(meal)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(InputMealActivity.this, "Meal added successfully", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(InputMealActivity.this, "Failed to add meal", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            } else {
+                Toast.makeText(InputMealActivity.this, "User not logged in", Toast.LENGTH_SHORT).show();
+            }
         });
 
 
