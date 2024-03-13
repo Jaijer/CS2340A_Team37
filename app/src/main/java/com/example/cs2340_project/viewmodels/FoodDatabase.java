@@ -1,9 +1,12 @@
-package com.example.cs2340_project.model;
+package com.example.cs2340_project.viewmodels;
 
+import androidx.lifecycle.ViewModel;
+
+import com.example.cs2340_project.model.Meal;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class FoodDatabase {
+public class FoodDatabase extends ViewModel {
     // Singleton FoodDatabase class.
     private volatile static FoodDatabase database;
     private final DatabaseReference foodRef;
@@ -11,7 +14,7 @@ public class FoodDatabase {
         // Initialize firebase
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         // Reference to the "meals" node in FireBase
-        foodRef = firebaseDatabase.getReference("meals");
+        foodRef = firebaseDatabase.getReference();
     }
 
     public static FoodDatabase getInstance() {
@@ -29,12 +32,12 @@ public class FoodDatabase {
         return foodRef;
     }
 
-    public void addMeal(Meal meal) {
-        if (meal != null) {
-            String key = foodRef.push().getKey();
-            if (key != null) {
-                foodRef.child(key).setValue(meal);
-            }
+    int counter = 0;
+// re-implement to ensure compatibility
+    public void addMeal(String name, int calorieCount) {
+        Meal meal = new Meal(name, calorieCount);
+        foodRef.child("meal" + counter).setValue(meal);
+        counter++;
         }
     }
-}
+
