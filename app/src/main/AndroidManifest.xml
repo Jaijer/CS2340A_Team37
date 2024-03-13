@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,15 +13,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CS2340_Project"
         tools:targetApi="31">
+
         <activity
-            android:name=".views.MainActivity"
+            android:name=".views.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".views.LoginActivity" android:exported="true" />
+        <activity android:name=".views.MainActivity" android:exported="true" />
+        <activity android:name=".views.HomeActivity" android:exported="true" />
+        <activity android:name=".views.AccountCreationActivity" android:exported="true" />
+        <activity android:name=".views.IngredientActivity" android:exported="true" />
+        <activity android:name=".views.InputMealActivity" android:exported="true" />
+        <activity android:name=".views.RecipeActivity" android:exported="true" />
+        <activity android:name=".views.ShoppingListActivity" android:exported="true" />
+        <activity android:name=".views.PersonalInfoActivity" android:exported="true" />
+
     </application>
 
 </manifest>
+
