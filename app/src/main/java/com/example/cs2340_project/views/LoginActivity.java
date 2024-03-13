@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import com.example.cs2340_project.R;
 import com.example.cs2340_project.viewmodels.LoginViewModel;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
     private LoginViewModel loginViewModel;
@@ -18,7 +19,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText email;
     private EditText password;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
