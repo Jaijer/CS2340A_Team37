@@ -13,12 +13,12 @@ public class LoginViewModel extends ViewModel {
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     // Getter for userLiveData
-    public LiveData<User> getUserLiveData() {
+    public MutableLiveData<User> getUserLiveData() {
         return userLiveData;
     }
 
     // Getter for authErrorLiveData
-    public LiveData<String> getAuthErrorLiveData() {
+    public MutableLiveData<String> getAuthErrorLiveData() {
         return authErrorLiveData;
     }
 
