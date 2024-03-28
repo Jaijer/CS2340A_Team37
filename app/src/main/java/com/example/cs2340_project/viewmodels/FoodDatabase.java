@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.cs2340_project.model.Ingredient;
 import com.example.cs2340_project.model.Meal;
+import com.example.cs2340_project.model.Recipe;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -46,11 +47,17 @@ public class FoodDatabase extends ViewModel {
         return foodRef.child("Meals").child(userId).child(key).setValue(meal);
     }
 
-    public void addRecipeToCookbook(String name, ArrayList<Ingredient> ingredients, ArrayList<Integer> ingredientsQuantities) {
+    public void addRecipeToCookbook(String name, ArrayList<Ingredient> ingredients) {
         //add recipe to cookbook database
+        String recipeKey = foodRef.push().getKey();
+        foodRef.child("Cookbook").child(recipeKey).child("name").setValue(name);
+        for(int i = 0; i< ingredients.size(); i++) {
+            foodRef.child("Cookbook").child(recipeKey).child("Ingredients").child("Ingredient " + (i+1)).child("name").setValue(ingredients.get(i).getName());
+            foodRef.child("Cookbook").child(recipeKey).child("Ingredients").child("Ingredient " + (i+1)).child("quantity").setValue(ingredients.get(i).getQuantity());
+        }
     }
 
-    public void addRecipeToUser(String name, ArrayList<Ingredient> ingredients, ArrayList<Integer> ingredientsQuantities) {
+    public void addRecipeToUser(String name, ArrayList<Ingredient> ingredients) {
         //add recipe to usersRecipes database
     }
 }
