@@ -25,7 +25,6 @@ public class InputMealActivity extends AppCompatActivity {
     private EditText mealName;
     private EditText mealCalorie;
     private FirebaseAuth auth;
-    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +37,6 @@ public class InputMealActivity extends AppCompatActivity {
         Button recipeActivityButton = findViewById(R.id.recipeActivityButton);
         Button shoppingListActivityButton = findViewById(R.id.shoppingListActivityButton);
         foodDatabase = FoodDatabase.getInstance();
-        databaseReference = foodDatabase.getFoodRef();
         auth = FirebaseAuth.getInstance();
 
 
@@ -71,18 +69,15 @@ public class InputMealActivity extends AppCompatActivity {
 
             if (auth.getCurrentUser() != null) {
                 String userId = auth.getCurrentUser().getUid();
-                Meal meal = new Meal(nameText, intCalorieText);
 
-                // Save the meal under the user's ID in Firebase
-                String key = databaseReference.push().getKey();
-                databaseReference.child("Meals").child(userId).child(key).setValue(meal)
+                foodDatabase.addMeal(nameText, intCalorieText, userId)
                         .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(InputMealActivity.this, "Meal added successfully", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(InputMealActivity.this, "Failed to add meal", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                    if (task.isSuccessful()) {
+                        Toast.makeText(InputMealActivity.this, "Meal added successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(InputMealActivity.this, "Failed to add meal", Toast.LENGTH_SHORT).show();
+                    }
+                });;
             } else {
                 Toast.makeText(InputMealActivity.this, "User not logged in", Toast.LENGTH_SHORT).show();
             }
