@@ -23,4 +23,7 @@ public class Recipe {
     public void setIngredients(ArrayList<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
+    public String getName() {
+        return name;
+    }
 }
