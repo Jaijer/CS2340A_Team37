@@ -23,49 +23,40 @@ public class IngredientActivity extends AppCompatActivity {
         Button inputMealActivityButton = findViewById(R.id.inputMealActivityButton);
         Button recipeActivityButton = findViewById(R.id.recipeActivityButton);
         Button shoppingListActivityButton = findViewById(R.id.shoppingListActivityButton);
+        Button addIngredientButton = findViewById(R.id.addIngredientBtn);
 
-        homeActivityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IngredientActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
+        addIngredientButton.setOnClickListener(v -> {
+            Intent intent = new Intent(IngredientActivity.this, IngredientForm.class);
+            startActivity(intent);
         });
 
-        ingredientActivityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IngredientActivity.this, IngredientActivity.class);
-                startActivity(intent);
-
-            }
+        homeActivityButton.setOnClickListener(v -> {
+            Intent intent = new Intent(IngredientActivity.this, HomeActivity.class);
+            startActivity(intent);
         });
 
-        inputMealActivityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IngredientActivity.this, InputMealActivity.class);
-                startActivity(intent);
+        ingredientActivityButton.setOnClickListener(v -> {
+            Intent intent = new Intent(IngredientActivity.this, IngredientActivity.class);
+            startActivity(intent);
 
-            }
         });
 
-        recipeActivityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IngredientActivity.this, RecipeActivity.class);
-                startActivity(intent);
+        inputMealActivityButton.setOnClickListener(v -> {
+            Intent intent = new Intent(IngredientActivity.this, InputMealActivity.class);
+            startActivity(intent);
 
-            }
         });
 
-        shoppingListActivityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IngredientActivity.this, ShoppingListActivity.class);
-                startActivity(intent);
+        recipeActivityButton.setOnClickListener(v -> {
+            Intent intent = new Intent(IngredientActivity.this, RecipeActivity.class);
+            startActivity(intent);
 
-            }
+        });
+
+        shoppingListActivityButton.setOnClickListener(v -> {
+            Intent intent = new Intent(IngredientActivity.this, ShoppingListActivity.class);
+            startActivity(intent);
+
         });
 
     }
