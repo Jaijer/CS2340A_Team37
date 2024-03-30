@@ -4,11 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cs2340_project.R;
+import com.example.cs2340_project.model.Ingredient;
+import com.example.cs2340_project.viewmodels.FoodDatabase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IngredientActivity extends AppCompatActivity {
 
@@ -17,6 +26,7 @@ public class IngredientActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ingredient_activity_screen);
+
         TextView ingredientHeaderTextView = findViewById(R.id.ingredientHeaderTextView);
         Button homeActivityButton = findViewById(R.id.homeActivityButton);
         Button ingredientActivityButton = findViewById(R.id.ingredientActivityButton);
@@ -24,6 +34,28 @@ public class IngredientActivity extends AppCompatActivity {
         Button recipeActivityButton = findViewById(R.id.recipeActivityButton);
         Button shoppingListActivityButton = findViewById(R.id.shoppingListActivityButton);
         Button addIngredientButton = findViewById(R.id.addIngredientBtn);
+
+        // Retrieve ingredients for the current user
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FoodDatabase.getInstance().getIngredientsForUser(userId)
+                .addOnSuccessListener(snapshot -> {
+                    List<Ingredient> ingredients = new ArrayList<>();
+                    for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                        // Convert each ingredient data snapshot to an Ingredient object
+                        Ingredient ingredient = childSnapshot.getValue(Ingredient.class);
+                        ingredients.add(ingredient);
+                    }
+
+                    IngredientAdapter ingredientAdapter = new IngredientAdapter(this, ingredients);
+
+                    ListView listView = findViewById(R.id.listView);
+
+                    listView.setAdapter(ingredientAdapter);
+                })
+                .addOnFailureListener(e -> {
+                    // Handle any errors that occur while fetching ingredients
+                    Toast.makeText(IngredientActivity.this, "Failed to retrieve ingredients", Toast.LENGTH_SHORT).show();
+                });
 
         addIngredientButton.setOnClickListener(v -> {
             Intent intent = new Intent(IngredientActivity.this, IngredientForm.class);
