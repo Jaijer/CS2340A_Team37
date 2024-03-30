@@ -2,6 +2,7 @@ package com.example.cs2340_project.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -34,12 +35,14 @@ public class IngredientActivity extends AppCompatActivity {
         Button recipeActivityButton = findViewById(R.id.recipeActivityButton);
         Button shoppingListActivityButton = findViewById(R.id.shoppingListActivityButton);
         Button addIngredientButton = findViewById(R.id.addIngredientBtn);
+        Button sortByButton = findViewById(R.id.sortByButton);
+        List<Ingredient> ingredients = new ArrayList<>();
+
 
         // Retrieve ingredients for the current user
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FoodDatabase.getInstance().getIngredientsForUser(userId)
                 .addOnSuccessListener(snapshot -> {
-                    List<Ingredient> ingredients = new ArrayList<>();
                     for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                         // Convert each ingredient data snapshot to an Ingredient object
                         Ingredient ingredient = childSnapshot.getValue(Ingredient.class);
@@ -56,6 +59,13 @@ public class IngredientActivity extends AppCompatActivity {
                     // Handle any errors that occur while fetching ingredients
                     Toast.makeText(IngredientActivity.this, "Failed to retrieve ingredients", Toast.LENGTH_SHORT).show();
                 });
+
+        // Set OnClickListener for Sort By Button
+        sortByButton.setOnClickListener(v -> {
+            Intent intent = new Intent(IngredientActivity.this, SortSelectionActivity.class);
+            intent.putParcelableArrayListExtra("ingredients", (ArrayList<? extends Parcelable>) ingredients);
+            startActivity(intent);
+        });
 
         addIngredientButton.setOnClickListener(v -> {
             Intent intent = new Intent(IngredientActivity.this, IngredientForm.class);

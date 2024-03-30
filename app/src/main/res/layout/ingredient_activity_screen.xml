@@ -24,16 +24,29 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
+        android:id="@+id/sortByButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Sort By"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ingredientHeaderTextView"
+        app:layout_constraintVertical_bias="0.001" />
+
+    <Button
         android:id="@+id/addIngredientBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="313dp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="585dp"
         android:text="Add"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.968"
+        app:layout_constraintStart_toEndOf="@+id/sortByButton"
         app:layout_constraintTop_toBottomOf="@+id/ingredientHeaderTextView" />
 
     <LinearLayout
@@ -93,6 +106,7 @@
         android:layout_height="586dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ingredientHeaderTextView"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintVertical_bias="0.515"
+        tools:layout_editor_absoluteX="3dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
