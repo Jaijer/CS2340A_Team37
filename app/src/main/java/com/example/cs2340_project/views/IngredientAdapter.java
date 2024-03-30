@@ -29,30 +29,35 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> {
             listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item_layout, parent, false);
         }
 
+        // Get the current ingredient
         Ingredient currentIngredient = mIngredientList.get(position);
 
-        TextView nameTextView = listItem.findViewById(R.id.nameTextView);
-        TextView quantityTextView = listItem.findViewById(R.id.quantityTextView);
-        TextView caloriesTextView = listItem.findViewById(R.id.caloriesTextView);
+        // Null check for currentIngredient
+        if (currentIngredient != null) {
+            // Populate the TextViews with ingredient information
+            TextView nameTextView = listItem.findViewById(R.id.nameTextView);
+            TextView quantityTextView = listItem.findViewById(R.id.quantityTextView);
+            TextView caloriesTextView = listItem.findViewById(R.id.caloriesTextView);
 
-        nameTextView.setText(currentIngredient.getName());
-        quantityTextView.setText(String.valueOf(currentIngredient.getQuantity()));
-        caloriesTextView.setText(String.valueOf(currentIngredient.getCalories()));
+            nameTextView.setText(currentIngredient.getName());
+            quantityTextView.setText(String.valueOf(currentIngredient.getQuantity()));
+            caloriesTextView.setText(String.valueOf(currentIngredient.getCalories()));
 
-        // Set OnClickListener to the list item
-        listItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Create an Intent to start AdjustIngredientActivity
-                Intent intent = new Intent(mContext, AdjustIngredientActivity.class);
+            // Set OnClickListener to the list item
+            listItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Create an Intent to start AdjustIngredientActivity
+                    Intent intent = new Intent(mContext, AdjustIngredientActivity.class);
 
-                // Pass the selected Ingredient object to AdjustIngredientActivity
-                intent.putExtra("ingredient", currentIngredient);
+                    // Pass the selected Ingredient object to AdjustIngredientActivity
+                    intent.putExtra("ingredient", currentIngredient);
 
-                // Start the AdjustIngredientActivity
-                mContext.startActivity(intent);
-            }
-        });
+                    // Start the AdjustIngredientActivity
+                    mContext.startActivity(intent);
+                }
+            });
+        }
 
         return listItem;
     }

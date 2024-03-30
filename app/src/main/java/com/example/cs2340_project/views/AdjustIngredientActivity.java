@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cs2340_project.R;
@@ -38,38 +38,66 @@ public class AdjustIngredientActivity extends AppCompatActivity {
         Button removeButton = findViewById(R.id.removeButton);
         Button closeButton = findViewById(R.id.closeButton);
 
+        // Set text for ingredient name, quantity, and calorie count TextViews
+        TextView nameTextView = findViewById(R.id.nameTextView);
+        TextView quantityTextView = findViewById(R.id.quantityTextView);
+        TextView calorieCountTextView = findViewById(R.id.calorieCountTextView);
+
+        nameTextView.setText(ingredient.getName());
+        quantityTextView.setText(String.valueOf(ingredient.getQuantity()));
+        calorieCountTextView.setText(String.valueOf(ingredient.getCalories()));
+
         // Set OnClickListener for Set Button
-        setButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setCustomQuantity();
-            }
-        });
+        setButton.setOnClickListener(v -> setCustomQuantity());
 
         // Set OnClickListener for Add Button
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addIngredient();
-            }
-        });
+        addButton.setOnClickListener(v -> addIngredient());
 
         // Set OnClickListener for Remove Button
-        removeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Implement remove functionality here
+        // Set OnClickListener for Remove Button
+        removeButton.setOnClickListener(v -> {
+            // Decrement the quantity
+            int currentQuantity = ingredient.getQuantity();
+            if (currentQuantity > 0) {
+                // If quantity is greater than 0, decrement it
+                ingredient.setQuantity(currentQuantity - 1);
+                updateIngredientQuantity();
+            } else {
+                // If quantity is already 0, remove the ingredient from the database
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                DatabaseReference databaseReference = FoodDatabase.getInstance().getFoodRef().child("Pantry").child(userId);
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                            Ingredient storedIngredient = childSnapshot.getValue(Ingredient.class);
+                            if (storedIngredient.getName().equals(ingredient.getName())) {
+                                // Remove the ingredient from the database
+                                childSnapshot.getRef().removeValue()
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(AdjustIngredientActivity.this, "Ingredient removed successfully", Toast.LENGTH_SHORT).show();
+                                            // Close the activity after successful removal
+                                            finish();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(AdjustIngredientActivity.this, "Failed to remove ingredient", Toast.LENGTH_SHORT).show();
+                                        });
+                                break;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Handle database error
+                        Toast.makeText(AdjustIngredientActivity.this, "Failed to fetch ingredients", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
         // Set OnClickListener for Close Button
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Close the activity
-                finish();
-            }
-        });
+        closeButton.setOnClickListener(v -> finish());
     }
 
     private void setCustomQuantity() {
@@ -96,7 +124,7 @@ public class AdjustIngredientActivity extends AppCompatActivity {
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 // Loop through each child (ingredient) in the dataSnapshot
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     Ingredient storedIngredient = childSnapshot.getValue(Ingredient.class);
@@ -122,7 +150,7 @@ public class AdjustIngredientActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {
                 // Handle database error
                 Toast.makeText(AdjustIngredientActivity.this, "Failed to fetch ingredients", Toast.LENGTH_SHORT).show();
             }
