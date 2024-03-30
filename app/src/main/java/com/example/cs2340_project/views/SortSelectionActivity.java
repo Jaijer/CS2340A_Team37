@@ -1,5 +1,6 @@
 package com.example.cs2340_project.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -32,13 +33,22 @@ public class SortSelectionActivity extends AppCompatActivity {
                 Toast.makeText(SortSelectionActivity.this, "Please select a sorting option", Toast.LENGTH_SHORT).show();
             } else if (checkedRadioButtonId == R.id.alphabeticalRadioButton) {
                 // Sort alphabetically
-                Toast.makeText(SortSelectionActivity.this, "Sort alphabetically", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SortSelectionActivity.this, "Sorted alphabetically", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(SortSelectionActivity.this, IngredientActivity.class);
+                startActivity(intent);
             } else if (checkedRadioButtonId == R.id.calorieRadioButton) {
                 // Sort by calorie
-                Toast.makeText(SortSelectionActivity.this, "Sort by calorie", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SortSelectionActivity.this, "Sorted by calorie", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(SortSelectionActivity.this, IngredientActivity.class);
+                startActivity(intent);
             } else if (checkedRadioButtonId == R.id.dateAddedRadioButton) {
                 // Sort by date added.
-                Toast.makeText(SortSelectionActivity.this, "Sort by date added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SortSelectionActivity.this, "Sorted by date added", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(SortSelectionActivity.this, IngredientActivity.class);
+                startActivity(intent);
 
             }
         });
