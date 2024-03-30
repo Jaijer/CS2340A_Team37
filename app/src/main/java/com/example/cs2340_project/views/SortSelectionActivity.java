@@ -10,13 +10,25 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cs2340_project.R;
+import com.example.cs2340_project.model.Ingredient;
+import com.example.cs2340_project.viewmodels.AlphabeticSort;
+import com.example.cs2340_project.viewmodels.ByDateSort;
+import com.example.cs2340_project.viewmodels.CaloricSort;
+import com.example.cs2340_project.viewmodels.SortingStrategies;
+
+import java.util.List;
 
 public class SortSelectionActivity extends AppCompatActivity {
-
+    List<Ingredient> ingredients;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sort_selection_activity);
+
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("ingredients")) {
+            ingredients = intent.getParcelableArrayListExtra("ingredients");
+        }
 
         // Initialize views
         RadioButton alphabeticalRadioButton = findViewById(R.id.alphabeticalRadioButton);
@@ -33,22 +45,34 @@ public class SortSelectionActivity extends AppCompatActivity {
                 Toast.makeText(SortSelectionActivity.this, "Please select a sorting option", Toast.LENGTH_SHORT).show();
             } else if (checkedRadioButtonId == R.id.alphabeticalRadioButton) {
                 // Sort alphabetically
+
                 Toast.makeText(SortSelectionActivity.this, "Sorted alphabetically", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(SortSelectionActivity.this, IngredientActivity.class);
-                startActivity(intent);
+                SortingStrategies alphSort = new AlphabeticSort();
+                ingredients = alphSort.sort(ingredients);
+
+                Intent newIntent = new Intent(SortSelectionActivity.this, IngredientActivity.class);
+                startActivity(newIntent);
             } else if (checkedRadioButtonId == R.id.calorieRadioButton) {
                 // Sort by calorie
+
                 Toast.makeText(SortSelectionActivity.this, "Sorted by calorie", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(SortSelectionActivity.this, IngredientActivity.class);
-                startActivity(intent);
+                SortingStrategies caloricSort = new CaloricSort();
+                ingredients = caloricSort.sort(ingredients);
+
+                Intent newIntent = new Intent(SortSelectionActivity.this, IngredientActivity.class);
+                startActivity(newIntent);
             } else if (checkedRadioButtonId == R.id.dateAddedRadioButton) {
                 // Sort by date added.
+
                 Toast.makeText(SortSelectionActivity.this, "Sorted by date added", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(SortSelectionActivity.this, IngredientActivity.class);
-                startActivity(intent);
+                SortingStrategies byDateSort = new ByDateSort();
+                ingredients = byDateSort.sort(ingredients);
+
+                Intent newIntent = new Intent(SortSelectionActivity.this, IngredientActivity.class);
+                startActivity(newIntent);
 
             }
         });

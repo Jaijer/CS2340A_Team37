@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface SortingStrategies {
 
-    void sort(List<Ingredient> ingredients);
+    List<Ingredient> sort(List<Ingredient> ingredients);
 
 }
