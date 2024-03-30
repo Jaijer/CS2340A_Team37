@@ -4,6 +4,9 @@ public class Ingredient {
     private String name;
     private Integer quantity;
     private Integer calories;
+    public Ingredient() {
+        // It exists, woo!
+    }
 
     public Ingredient(String name, Integer quantity, Integer calories) {
         this.name = name;

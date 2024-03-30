@@ -6,6 +6,7 @@ import com.example.cs2340_project.model.Ingredient;
 import com.example.cs2340_project.model.Meal;
 import com.example.cs2340_project.model.Recipe;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -66,6 +67,11 @@ public class FoodDatabase extends ViewModel {
 
         String ingredientKey = foodRef.push().getKey();
         return foodRef.child("Pantry").child(userId).child(ingredientKey).setValue(ingredient);
+    }
+
+    public Task<DataSnapshot> getIngredientsForUser(String userId) {
+        // Retrieve ingredients for the given user from the database
+        return foodRef.child("Pantry").child(userId).get();
     }
 }
 
