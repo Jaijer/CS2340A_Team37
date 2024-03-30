@@ -1,17 +1,26 @@
 package com.example.cs2340_project.model;
 
-public class Ingredient {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Ingredient implements Parcelable{
     private String name;
     private Integer quantity;
     private Integer calories;
     public Ingredient() {
-        // It exists, woo!
+        // The code will break if you remove this.
     }
 
     public Ingredient(String name, Integer quantity, Integer calories) {
         this.name = name;
         this.calories = calories;
         this.quantity = quantity;
+    }
+
+    protected Ingredient(Parcel in) {
+        name = in.readString();
+        quantity = in.readInt();
+        calories = in.readInt();
     }
 
     public int getQuantity() {
@@ -32,5 +41,29 @@ public class Ingredient {
 
     public void setCalories(Integer calories) {
         this.calories = calories;
+    }
+
+    public static final Parcelable.Creator<Ingredient> CREATOR = new Parcelable.Creator<Ingredient>() {
+        @Override
+        public Ingredient createFromParcel(Parcel in) {
+            return new Ingredient(in);
+        }
+
+        @Override
+        public Ingredient[] newArray(int size) {
+            return new Ingredient[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeInt(quantity);
+        dest.writeInt(calories);
     }
 }
