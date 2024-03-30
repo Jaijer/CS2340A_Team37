@@ -60,5 +60,12 @@ public class FoodDatabase extends ViewModel {
     public void addRecipeToUser(String name, ArrayList<Ingredient> ingredients) {
         //add recipe to usersRecipes database
     }
+
+    public Task<Void> addIngredient(String nameText, int intQuantityText, int intCalories, String userId) {
+        Ingredient ingredient = new Ingredient(nameText, intQuantityText, intCalories);
+
+        String ingredientKey = foodRef.push().getKey();
+        return foodRef.child("Pantry").child(userId).child(ingredientKey).setValue(ingredient);
+    }
 }
 

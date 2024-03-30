@@ -1,12 +1,13 @@
 package com.example.cs2340_project.model;
 
-public class Ingredient extends Meal {
+public class Ingredient {
     private String name;
-    private int quantity;
-    private int calorie;
+    private Integer quantity;
+    private Integer calories;
 
-    public Ingredient(String name, Integer calorieCount, Integer quantity) {
-        super(name, calorieCount);
+    public Ingredient(String name, Integer quantity, Integer calories) {
+        this.name = name;
+        this.calories = calories;
         this.quantity = quantity;
     }
 
@@ -20,5 +21,13 @@ public class Ingredient extends Meal {
 
     public String getName() {
         return name;
+    }
+
+    public Integer getCalories() {
+        return calories;
+    }
+
+    public void setCalories(Integer calories) {
+        this.calories = calories;
     }
 }

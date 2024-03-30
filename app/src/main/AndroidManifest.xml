@@ -32,6 +32,7 @@
         <activity android:name=".views.RecipeActivity" android:exported="true" />
         <activity android:name=".views.ShoppingListActivity" android:exported="true" />
         <activity android:name=".views.PersonalInfoActivity" android:exported="true" />
+        <activity android:name=".views.IngredientForm" android:exported="true" />
 
     </application>
 
