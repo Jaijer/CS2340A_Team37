@@ -4,15 +4,17 @@ import java.util.ArrayList;
 
 public class Recipe {
     private String name;
+    private Integer totalCalories;
     private ArrayList<Ingredient> ingredients;
 
 
     public Recipe() {
     }
 
-    public Recipe(String name, ArrayList<Ingredient> ingredients) {
+    public Recipe(String name, ArrayList<Ingredient> ingredients, Integer totalCalories) {
         this.name = name;
         this.ingredients = ingredients;
+        this.totalCalories = totalCalories;
     }
 
     public ArrayList<Ingredient> getIngredients() {
@@ -29,4 +31,7 @@ public class Recipe {
     public String getName() {
         return name;
     }
+
+    public Integer getTotalCalories() { return totalCalories; }
+    public void setTotalCalories(Integer totalCalories) { this.totalCalories = totalCalories; }
 }

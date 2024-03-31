@@ -53,45 +53,8 @@ public class RecipeActivity extends AppCompatActivity {
 
 
         addRecipeBtn.setOnClickListener(v -> {
-            String nameText = recipeName.getText().toString().trim();
-            ArrayList<Ingredient> ingredients = new ArrayList<>();
-            List<String> ingredientsNamesText = Arrays.asList(ingredientsNames.getText().toString().split(","));
-            List<String> ingredientsQuantitiesText = Arrays.asList(ingredientsQuantities.getText().toString().split(","));
-
-            if(nameText.isEmpty() || ingredientsNamesText.get(0).isEmpty() || ingredientsQuantitiesText.get(0).isEmpty()) {
-                System.out.println(ingredientsNamesText.size());
-                System.out.println(ingredientsNamesText);
-                Toast.makeText(RecipeActivity.this, "Name, Lists of ingredients and quantities must not be empty",
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(ingredientsNamesText.size() != ingredientsQuantitiesText.size()) {
-                Toast.makeText(RecipeActivity.this, "Lists of ingredients and quantities must be of the same size",
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            for(int i = 0; i < ingredientsNamesText.size(); i++) {
-                try {
-                    int quantityText = Integer.parseInt(ingredientsQuantitiesText.get(i).trim());
-                    if (quantityText <= 0) {
-                        throw new NumberFormatException();
-                    }
-
-                    ingredients.add(new Ingredient(ingredientsNamesText.get(i).trim(), quantityText, 0));
-
-                } catch (NumberFormatException e) {
-                    Toast.makeText(RecipeActivity.this, "Quantities must positive numbers.",
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
-
-            foodDatabase.addRecipeToCookbook(nameText, ingredients);
-
-            recipeName.getText().clear();
-            ingredientsNames.getText().clear();
-            ingredientsQuantities.getText().clear();
+            Intent intent = new Intent(RecipeActivity.this, AddRecipeActivity.class);
+            startActivity(intent);
         });
 
         homeActivityButton.setOnClickListener(v -> {
