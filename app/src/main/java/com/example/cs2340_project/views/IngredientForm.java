@@ -8,11 +8,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.cs2340_project.R;
+import com.example.cs2340_project.model.Ingredient;
 import com.example.cs2340_project.viewmodels.FoodDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.List;
 
 public class IngredientForm extends AppCompatActivity {
     private EditText name;
@@ -53,6 +56,19 @@ public class IngredientForm extends AppCompatActivity {
             Toast.makeText(IngredientForm.this, "Please fill in all fields.",
                     Toast.LENGTH_SHORT).show();
             return;
+        }
+
+        Intent intent = getIntent();
+
+        if (intent != null && intent.hasExtra("ingredients")) {
+            List<Ingredient> ingredients = intent.getParcelableArrayListExtra("ingredients");
+            for (Ingredient ingredient : ingredients) {
+                if (ingredient.getName().trim().toLowerCase().equals(nameText.toLowerCase())) {
+                    Toast.makeText(IngredientForm.this, "Duplicate ingredients not allowed.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
         }
 
         int intQuantityText;
