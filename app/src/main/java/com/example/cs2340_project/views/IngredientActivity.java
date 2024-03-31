@@ -3,6 +3,7 @@ package com.example.cs2340_project.views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -37,67 +38,104 @@ public class IngredientActivity extends AppCompatActivity {
         Button addIngredientButton = findViewById(R.id.addIngredientBtn);
         Button sortByButton = findViewById(R.id.sortByButton);
         List<Ingredient> ingredients = new ArrayList<>();
+        boolean defaultSort = true;
 
 
-        // Retrieve ingredients for the current user
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FoodDatabase.getInstance().getIngredientsForUser(userId)
-                .addOnSuccessListener(snapshot -> {
-                    for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                        // Convert each ingredient data snapshot to an Ingredient object
-                        Ingredient ingredient = childSnapshot.getValue(Ingredient.class);
-                        ingredients.add(ingredient);
-                    }
+        // Retrieve the sorted ingredients from the intent
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("sortedIngredients")) {
+            defaultSort = false;
+            Log.d("IngredientActivity", "Ingredients passed");
+            ingredients = intent.getParcelableArrayListExtra("sortedIngredients");
 
-                    IngredientAdapter ingredientAdapter = new IngredientAdapter(this, ingredients);
+            // Clear the extra to avoid retaining the sorted list unnecessarily
+            intent.removeExtra("sortedIngredients");
 
-                    ListView listView = findViewById(R.id.listView);
+            // Log the list of ingredients
+            for (Ingredient ingredient : ingredients) {
+                Log.d("IngredientActivity", "Name: " + ingredient.getName() + ", Quantity: " + ingredient.getQuantity() + ", Calories: " + ingredient.getCalories());
+            }
+        }
 
-                    listView.setAdapter(ingredientAdapter);
-                })
-                .addOnFailureListener(e -> {
-                    // Handle any errors that occur while fetching ingredients
-                    Toast.makeText(IngredientActivity.this, "Failed to retrieve ingredients", Toast.LENGTH_SHORT).show();
-                });
+        if (defaultSort) {
+            // Retrieve ingredients for the current user
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            List<Ingredient> finalIngredients1 = ingredients;
+            FoodDatabase.getInstance().getIngredientsForUser(userId)
+                    .addOnSuccessListener(snapshot -> {
+                        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                            // Convert each ingredient data snapshot to an Ingredient object
+                            Ingredient ingredient = childSnapshot.getValue(Ingredient.class);
+                            finalIngredients1.add(ingredient);
+                        }
+
+                        IngredientAdapter ingredientAdapter = new IngredientAdapter(this, finalIngredients1);
+
+                        ListView listView = findViewById(R.id.listView);
+
+                        listView.setAdapter(ingredientAdapter);
+                    })
+                    .addOnFailureListener(e -> {
+                        // Handle any errors that occur while fetching ingredients
+                        Toast.makeText(IngredientActivity.this, "Failed to retrieve ingredients", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            if (ingredients != null && !ingredients.isEmpty()) {
+                Log.d("IngredientActivity", "sortedIngredients is EMPTY!!");
+
+                IngredientAdapter ingredientAdapter = new IngredientAdapter(this, ingredients);
+
+                ListView listView = findViewById(R.id.listView);
+
+                listView.setAdapter(ingredientAdapter);
+            } else if (ingredients.isEmpty()) {
+                Log.d("IngredientActivity", "sortedIngredients is EMPTY!!");
+            } else if (ingredients == null) {
+                Log.d("IngredientActivity", "sortedIngredients is NULL!!");
+            }
+        }
+
 
         // Set OnClickListener for Sort By Button
+        List<Ingredient> finalIngredients = ingredients;
+
         sortByButton.setOnClickListener(v -> {
-            Intent intent = new Intent(IngredientActivity.this, SortSelectionActivity.class);
-            intent.putParcelableArrayListExtra("ingredients", (ArrayList<? extends Parcelable>) ingredients);
-            startActivity(intent);
+            Intent newIntent = new Intent(IngredientActivity.this, SortSelectionActivity.class);
+            newIntent.putParcelableArrayListExtra("ingredients", (ArrayList<? extends Parcelable>) finalIngredients);
+            startActivity(newIntent);
         });
 
         addIngredientButton.setOnClickListener(v -> {
-            Intent intent = new Intent(IngredientActivity.this, IngredientForm.class);
-            startActivity(intent);
+            Intent newIntent = new Intent(IngredientActivity.this, IngredientForm.class);
+            startActivity(newIntent);
         });
 
         homeActivityButton.setOnClickListener(v -> {
-            Intent intent = new Intent(IngredientActivity.this, HomeActivity.class);
-            startActivity(intent);
+            Intent newIntent = new Intent(IngredientActivity.this, HomeActivity.class);
+            startActivity(newIntent);
         });
 
         ingredientActivityButton.setOnClickListener(v -> {
-            Intent intent = new Intent(IngredientActivity.this, IngredientActivity.class);
-            startActivity(intent);
+            Intent newIntent = new Intent(IngredientActivity.this, IngredientActivity.class);
+            startActivity(newIntent);
 
         });
 
         inputMealActivityButton.setOnClickListener(v -> {
-            Intent intent = new Intent(IngredientActivity.this, InputMealActivity.class);
-            startActivity(intent);
+            Intent newIntent = new Intent(IngredientActivity.this, InputMealActivity.class);
+            startActivity(newIntent);
 
         });
 
         recipeActivityButton.setOnClickListener(v -> {
-            Intent intent = new Intent(IngredientActivity.this, RecipeActivity.class);
-            startActivity(intent);
+            Intent newIntent = new Intent(IngredientActivity.this, RecipeActivity.class);
+            startActivity(newIntent);
 
         });
 
         shoppingListActivityButton.setOnClickListener(v -> {
-            Intent intent = new Intent(IngredientActivity.this, ShoppingListActivity.class);
-            startActivity(intent);
+            Intent newIntent = new Intent(IngredientActivity.this, ShoppingListActivity.class);
+            startActivity(newIntent);
 
         });
 
