@@ -40,8 +40,8 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> {
             TextView caloriesTextView = listItem.findViewById(R.id.caloriesTextView);
 
             nameTextView.setText(currentIngredient.getName());
-            quantityTextView.setText(String.valueOf(currentIngredient.getQuantity()));
-            caloriesTextView.setText(String.valueOf(currentIngredient.getCalories()));
+            quantityTextView.setText(String.valueOf("Quantity: " + currentIngredient.getQuantity()));
+            caloriesTextView.setText(String.valueOf(currentIngredient.getCalories() + " cal."));
 
             // Set OnClickListener to the list item
             listItem.setOnClickListener(new View.OnClickListener() {
