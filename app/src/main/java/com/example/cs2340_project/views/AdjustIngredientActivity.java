@@ -104,12 +104,46 @@ public class AdjustIngredientActivity extends AppCompatActivity {
         String customQuantityString = customQuantityEditText.getText().toString();
         if (!customQuantityString.isEmpty()) {
             int customQuantity = Integer.parseInt(customQuantityString);
-            ingredient.setQuantity(customQuantity);
-            updateIngredientQuantity();
+            if (customQuantity == 0) {
+                // Remove the ingredient from Firebase
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                DatabaseReference databaseReference = FoodDatabase.getInstance().getFoodRef().child("Pantry").child(userId);
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                            Ingredient storedIngredient = childSnapshot.getValue(Ingredient.class);
+                            if (storedIngredient.getName().equals(ingredient.getName())) {
+                                // Remove the ingredient from the database
+                                childSnapshot.getRef().removeValue()
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(AdjustIngredientActivity.this, "Ingredient removed successfully", Toast.LENGTH_SHORT).show();
+                                            // Close the activity after successful removal
+                                            finish();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(AdjustIngredientActivity.this, "Failed to remove ingredient", Toast.LENGTH_SHORT).show();
+                                        });
+                                break;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Handle database error
+                        Toast.makeText(AdjustIngredientActivity.this, "Failed to fetch ingredients", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                ingredient.setQuantity(customQuantity);
+                updateIngredientQuantity();
+            }
         } else {
             Toast.makeText(AdjustIngredientActivity.this, "Please enter a custom quantity", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void addIngredient() {
         int currentQuantity = ingredient.getQuantity();
