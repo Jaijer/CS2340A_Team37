@@ -107,6 +107,7 @@ public class IngredientActivity extends AppCompatActivity {
 
         addIngredientButton.setOnClickListener(v -> {
             Intent newIntent = new Intent(IngredientActivity.this, IngredientForm.class);
+            newIntent.putParcelableArrayListExtra("ingredients", (ArrayList<? extends Parcelable>) finalIngredients);
             startActivity(newIntent);
         });
 
