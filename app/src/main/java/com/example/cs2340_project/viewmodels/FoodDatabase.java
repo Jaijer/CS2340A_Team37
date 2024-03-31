@@ -51,6 +51,7 @@ public class FoodDatabase extends ViewModel {
     public void addRecipeToCookbook(String name, ArrayList<Ingredient> ingredients) {
         //add recipe to cookbook database
         String recipeKey = foodRef.push().getKey();
+        assert recipeKey != null;
         foodRef.child("Cookbook").child(recipeKey).child("name").setValue(name);
         for(int i = 0; i< ingredients.size(); i++) {
             foodRef.child("Cookbook").child(recipeKey).child("Ingredients").child("Ingredient " + (i+1)).child("name").setValue(ingredients.get(i).getName());
@@ -58,10 +59,18 @@ public class FoodDatabase extends ViewModel {
         }
     }
 
-    public void addRecipeToUser(String name, ArrayList<Ingredient> ingredients) {
-        //add recipe to usersRecipes database
+    public void addRecipeToUser(String userId, String name, ArrayList<Ingredient> ingredients) {
+        // Ensure non-null, non-empty parameters, and valid user ID
+        if (userId == null || userId.trim().isEmpty() || name == null || name.isEmpty()) {
+            // Handle error condition
+            return;
+        }
+        // Generate a new recipe key under the user's recipes node
+        String recipeKey = foodRef.child("Users").child(userId).child("recipes").push().getKey();
+        Recipe recipe = new Recipe(name, ingredients);
+        // Add the recipe to the user's personal list of recipes
+        foodRef.child("Users").child(userId).child("recipes").child(recipeKey).setValue(recipe);
     }
-
     public Task<Void> addIngredient(String nameText, int intQuantityText, int intCalories, String userId) {
         Ingredient ingredient = new Ingredient(nameText, intQuantityText, intCalories);
 

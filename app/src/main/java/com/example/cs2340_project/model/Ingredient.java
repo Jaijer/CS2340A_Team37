@@ -19,8 +19,8 @@ public class Ingredient implements Parcelable{
 
     protected Ingredient(Parcel in) {
         name = in.readString();
-        quantity = in.readInt();
-        calories = in.readInt();
+        quantity = (Integer) in.readValue(Integer.class.getClassLoader());
+        calories = (Integer) in.readValue(Integer.class.getClassLoader());
     }
 
     public int getQuantity() {
@@ -63,7 +63,7 @@ public class Ingredient implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
-        dest.writeInt(quantity);
-        dest.writeInt(calories);
+        dest.writeValue(quantity);
+        dest.writeValue(calories);
     }
 }
