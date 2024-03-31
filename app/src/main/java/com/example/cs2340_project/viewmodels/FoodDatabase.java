@@ -61,18 +61,6 @@ public class FoodDatabase extends ViewModel {
         foodRef.child("Cookbook").child(recipeKey).child("totalCalories").setValue(totalCalories);
     }
 
-    public void addRecipeToUser(String userId, String name, ArrayList<Ingredient> ingredients, Integer calorieCount) {
-        // Ensure non-null, non-empty parameters, and valid user ID
-        if (userId == null || userId.trim().isEmpty() || name == null || name.isEmpty()) {
-            // Handle error condition
-            return;
-        }
-        // Generate a new recipe key under the user's recipes node
-        String recipeKey = foodRef.child("Users").child(userId).child("recipes").push().getKey();
-        Recipe recipe = new Recipe(name, ingredients, calorieCount);
-        // Add the recipe to the user's personal list of recipes
-        foodRef.child("Users").child(userId).child("recipes").child(recipeKey).setValue(recipe);
-    }
     public Task<Void> addIngredient(String nameText, int intQuantityText, int intCalories, String userId) {
         Ingredient ingredient = new Ingredient(nameText, intQuantityText, intCalories);
 
