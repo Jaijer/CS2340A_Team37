@@ -7,6 +7,9 @@ public class Recipe {
     private ArrayList<Ingredient> ingredients;
 
 
+    public Recipe() {
+    }
+
     public Recipe(String name, ArrayList<Ingredient> ingredients) {
         this.name = name;
         this.ingredients = ingredients;
