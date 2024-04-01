@@ -5,19 +5,19 @@ import java.util.ArrayList;
 public class Recipe {
     private String name;
     private Integer totalCalories;
-    private ArrayList<Ingredient> ingredients;
+    private String ingredients;
 
 
     public Recipe() {
     }
 
-    public Recipe(String name, ArrayList<Ingredient> ingredients, Integer totalCalories) {
+    public Recipe(String name, String ingredients, Integer totalCalories) {
         this.name = name;
         this.ingredients = ingredients;
         this.totalCalories = totalCalories;
     }
 
-    public ArrayList<Ingredient> getIngredients() {
+    public String getIngredients() {
         return ingredients;
     }
 
@@ -25,7 +25,7 @@ public class Recipe {
         this.name = name;
     }
 
-    public void setIngredients(ArrayList<Ingredient> ingredients) {
+    public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
     }
     public String getName() {

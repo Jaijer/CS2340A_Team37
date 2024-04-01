@@ -43,29 +43,29 @@ public class AddRecipeActivity extends AppCompatActivity {
         // Set empty onClickListeners
         addRecipeBtn.setOnClickListener(v -> {
             String nameText = recipeName.getText().toString().trim();
-            ArrayList<Ingredient> ingredients = new ArrayList<>();
+            String ingredients = "";
             List<String> ingredientsNamesText = Arrays.asList(ingredientsNames.getText().toString().split(","));
             List<String> ingredientsQuantitiesText = Arrays.asList(ingredientsQuantities.getText().toString().split(","));
 
-            if(nameText.isEmpty() || ingredientsNamesText.get(0).isEmpty() || ingredientsQuantitiesText.get(0).isEmpty()) {
+            if (nameText.isEmpty() || ingredientsNamesText.get(0).isEmpty() || ingredientsQuantitiesText.get(0).isEmpty()) {
                 Toast.makeText(AddRecipeActivity.this, "Name, Lists of ingredients and quantities must not be empty",
                         Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(ingredientsNamesText.size() != ingredientsQuantitiesText.size()) {
+            if (ingredientsNamesText.size() != ingredientsQuantitiesText.size()) {
                 Toast.makeText(AddRecipeActivity.this, "Lists of ingredients and quantities must be of the same size",
                         Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            for(int i = 0; i < ingredientsNamesText.size(); i++) {
+            for (int i = 0; i < ingredientsNamesText.size(); i++) {
                 try {
                     int quantityText = Integer.parseInt(ingredientsQuantitiesText.get(i).trim());
                     if (quantityText <= 0) {
                         throw new NumberFormatException();
                     }
 
-                    ingredients.add(new Ingredient(ingredientsNamesText.get(i).trim(), quantityText, 0));
+                    ingredients += quantityText + ingredientsNamesText.get(i).trim() + ",";
 
                 } catch (NumberFormatException e) {
                     Toast.makeText(AddRecipeActivity.this, "Quantities must positive numbers.",
