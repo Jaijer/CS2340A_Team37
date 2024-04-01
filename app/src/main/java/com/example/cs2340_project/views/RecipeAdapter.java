@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RecipeAdapter extends ArrayAdapter<Recipe> {
@@ -49,22 +50,20 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
 
         if (recipe != null) {
             nameTextView.setText(recipe.getName());
-            String ingredientString = recipe.getIngredients();
+            caloriesTextView.setText(recipe.getTotalCalories() + " calories");
 
-            String[] recipeIngredients2 = ingredientString.split(",");
-
-            // Loop through each ingredient
-            for (String ingredientStr : recipeIngredients2) {
-                // Split each ingredient by the first digit (assuming the quantity always starts with a digit)
-                String[] parts = ingredientStr.split("(?<=\\d)(?=\\D)");
-
+            // Split recipe ingredients string and add to recipeIngredients list
+            String[] recipeIngredientsArray = recipe.getIngredients().split(",");
+            recipeIngredients.clear();
+            for (String ingredientStr : recipeIngredientsArray) {
+                String[] parts = ingredientStr.trim().split("(?<=\\d)(?=\\D)");
                 int quantity = Integer.parseInt(parts[0]);
-                String name = parts[1];
-
+                String name = parts[1].trim();
                 Ingredient ingredient = new Ingredient(name, quantity, 0);
                 recipeIngredients.add(ingredient);
             }
 
+            // Fetch user ingredients from Firebase
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             FoodDatabase.getInstance().getIngredientsForUser(userId)
                     .addOnSuccessListener(snapshot -> {
@@ -73,42 +72,33 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
                             Ingredient ingredient = childSnapshot.getValue(Ingredient.class);
                             userIngredients.add(ingredient);
                         }
+
+                        // Check if all recipe ingredients are available in sufficient quantity
+                        boolean allRequirementsMet = true;
+                        for (Ingredient recipeIng : recipeIngredients) {
+                            boolean ingredientFound = false;
+                            for (Ingredient userIng : userIngredients) {
+                                if (recipeIng.getName().trim().equalsIgnoreCase(userIng.getName().trim())
+                                        && recipeIng.getQuantity() <= userIng.getQuantity()) {
+                                    // If the required ingredient is found and the quantity is sufficient
+                                    ingredientFound = true;
+                                    break;
+                                }
+                            }
+                            // If the required ingredient is not found or quantity is insufficient
+                            if (!ingredientFound) {
+                                allRequirementsMet = false;
+                                break;
+                            }
+                        }
+
+                        // Update visibility of insufficientIngredientsTextView based on requirements met
+                        if (allRequirementsMet) {
+                            insufficientIngredientsTextView.setVisibility(View.GONE);
+                        } else {
+                            insufficientIngredientsTextView.setVisibility(View.VISIBLE);
+                        }
                     });
-
-            boolean allRequirementsMet = true;
-            for (Ingredient recipeIng : recipeIngredients) {
-                boolean ingredientFound = false; // Flag to check if the ingredient is found
-                for (Ingredient userIng : userIngredients) {
-                    if (recipeIng.getName().trim().equalsIgnoreCase(userIng.getName().trim()) && recipeIng.getQuantity() <= userIng.getQuantity()) {
-                        // If the required ingredient is found and the quantity is sufficient
-                        ingredientFound = true;
-                        break; // No need to check further, move to the next required ingredient
-                    }
-                }
-                // If the required ingredient is not found or quantity is insufficient
-                if (!ingredientFound) {
-                    allRequirementsMet = false;
-                    break; // No need to check further, requirements are not met
-                }
-            }
-
-            if (allRequirementsMet) {
-                // All requirements are met, hide the text view
-                insufficientIngredientsTextView.setVisibility(View.GONE);
-            } else {
-                // Requirements are not met, show the text view
-                insufficientIngredientsTextView.setVisibility(View.VISIBLE);
-            }
-
-            // Logging userIngredients
-            for (Ingredient ingredient : userIngredients) {
-                Log.d("RecipeAdapter", "User Ingredient: " + ingredient.getName() + ", Quantity: " + ingredient.getQuantity());
-            }
-            for (Ingredient ingredient : recipeIngredients) {
-                Log.d("RecipeAdapter", "Recipe Ingredient: " + ingredient.getName() + ", Quantity: " + ingredient.getQuantity());
-            }
-
-            caloriesTextView.setText(recipe.getTotalCalories() + " calories");
 
             // Set click listener for the item
             convertView.setOnClickListener(v -> {
@@ -120,9 +110,9 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
                 intent.putExtra("calories", String.valueOf(recipe.getTotalCalories()));
                 mContext.startActivity(intent);
             });
-
         }
 
         return convertView;
     }
+
 }
