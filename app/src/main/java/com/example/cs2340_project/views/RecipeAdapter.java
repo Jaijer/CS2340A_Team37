@@ -1,6 +1,7 @@
 package com.example.cs2340_project.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,10 +109,20 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
             }
 
             caloriesTextView.setText(recipe.getTotalCalories() + " calories");
+
+            // Set click listener for the item
+            convertView.setOnClickListener(v -> {
+                // Start RecipeDetailsActivity with appropriate data
+                Intent intent = new Intent(mContext, RecipeDetailsActivity.class);
+                // Pass individual ingredients as extras
+                intent.putExtra("recipeIngredients", recipe.getIngredients());
+                intent.putExtra("recipeName", recipe.getName());
+                intent.putExtra("calories", String.valueOf(recipe.getTotalCalories()));
+                mContext.startActivity(intent);
+            });
+
         }
 
         return convertView;
     }
-
-
 }

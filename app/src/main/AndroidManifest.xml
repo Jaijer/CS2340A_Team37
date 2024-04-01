@@ -37,6 +37,7 @@
         <activity android:name=".views.IngredientForm" android:exported="true" />
         <activity android:name=".views.SortSelectionActivity" android:exported="true" />
         <activity android:name=".views.AddRecipeActivity" android:exported="true" />
+        <activity android:name=".views.RecipeDetailsActivity" android:exported="true" />
 
 
     </application>
