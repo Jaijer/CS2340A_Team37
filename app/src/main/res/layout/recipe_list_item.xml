@@ -20,4 +20,14 @@
         android:text="0 calories"
         android:layout_marginBottom="4dp"/>
 
+    <TextView
+        android:id="@+id/insufficientIngredientsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Insufficient ingredients"
+        android:visibility="gone"
+    android:textColor="#FF0000"
+    android:layout_marginBottom="4dp"/>
+
 </LinearLayout>

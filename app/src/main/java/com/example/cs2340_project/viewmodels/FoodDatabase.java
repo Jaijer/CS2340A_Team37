@@ -48,16 +48,12 @@ public class FoodDatabase extends ViewModel {
         return foodRef.child("Meals").child(userId).child(key).setValue(meal);
     }
 
-    public void addRecipeToCookbook(String name, ArrayList<Ingredient> ingredients, Integer totalCalories) {
+    public void addRecipeToCookbook(String name, String ingredients, Integer totalCalories) {
         // Add recipe to cookbook database
         String recipeKey = foodRef.push().getKey();
         assert recipeKey != null;
         foodRef.child("Cookbook").child(recipeKey).child("name").setValue(name);
-        for(int i = 0; i< ingredients.size(); i++) {
-            foodRef.child("Cookbook").child(recipeKey).child("Ingredients").child("Ingredient " + (i+1)).child("name").setValue(ingredients.get(i).getName());
-            foodRef.child("Cookbook").child(recipeKey).child("Ingredients").child("Ingredient " + (i+1)).child("quantity").setValue(ingredients.get(i).getQuantity());
-        }
-        // Set totalCalories in the database
+        foodRef.child("Cookbook").child(recipeKey).child("ingredients").setValue(ingredients);
         foodRef.child("Cookbook").child(recipeKey).child("totalCalories").setValue(totalCalories);
     }
 
