@@ -23,6 +23,12 @@ public class ShoppingListActivity extends AppCompatActivity {
         Button inputMealActivityButton = findViewById(R.id.inputMealActivityButton);
         Button recipeActivityButton = findViewById(R.id.recipeActivityButton);
         Button shoppingListActivityButton = findViewById(R.id.shoppingListActivityButton);
+        Button addCartButton = findViewById(R.id.addCartBtn);
+
+        addCartButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ShoppingListActivity.this, ShoppingForm.class);
+            startActivity(intent);
+        });
 
         homeActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override

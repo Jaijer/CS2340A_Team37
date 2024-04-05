@@ -64,6 +64,13 @@ public class FoodDatabase extends ViewModel {
         return foodRef.child("Pantry").child(userId).child(ingredientKey).setValue(ingredient);
     }
 
+    public Task<Void> addCart(String nameText, int intQuantityText, int intCalories, String userId) {
+        Ingredient ingredient = new Ingredient(nameText, intQuantityText, intCalories);
+
+        String ingredientKey = foodRef.push().getKey();
+        return foodRef.child("Cart").child(userId).child(ingredientKey).setValue(ingredient);
+    }
+
     public Task<DataSnapshot> getIngredientsForUser(String userId) {
         // Retrieve ingredients for the given user from the database
         return foodRef.child("Pantry").child(userId).get();
