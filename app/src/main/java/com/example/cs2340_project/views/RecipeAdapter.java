@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cs2340_project.R;
 import com.example.cs2340_project.model.Ingredient;
@@ -26,6 +28,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
     private int mResource;
     private List<Ingredient> userIngredients = new ArrayList<>();
     private List<Ingredient> recipeIngredients = new ArrayList<>();
+    private FoodDatabase foodDatabase = FoodDatabase.getInstance();
 
 
     public RecipeAdapter(Context context, int resource, List<Recipe> objects) {
@@ -47,6 +50,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         TextView nameTextView = convertView.findViewById(R.id.nameTextView);
         TextView caloriesTextView = convertView.findViewById(R.id.caloriesTextView);
         TextView insufficientIngredientsTextView = convertView.findViewById(R.id.insufficientIngredientsTextView);
+        Button cookBtn = convertView.findViewById(R.id.cookBtn);
 
         if (recipe != null) {
             nameTextView.setText(recipe.getName());
@@ -95,8 +99,10 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
                         // Update visibility of insufficientIngredientsTextView based on requirements met
                         if (allRequirementsMet) {
                             insufficientIngredientsTextView.setVisibility(View.GONE);
+                            cookBtn.setVisibility(View.VISIBLE);
                         } else {
                             insufficientIngredientsTextView.setVisibility(View.VISIBLE);
+                            cookBtn.setVisibility(View.GONE);
                         }
                     });
 
@@ -109,6 +115,11 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
                 intent.putExtra("recipeName", recipe.getName());
                 intent.putExtra("calories", String.valueOf(recipe.getTotalCalories()));
                 mContext.startActivity(intent);
+            });
+
+            //set event listener when cook button is clicked
+            cookBtn.setOnClickListener(v -> {
+                foodDatabase.cook(recipe, v);
             });
         }
 
