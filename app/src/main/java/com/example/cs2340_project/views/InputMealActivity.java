@@ -13,8 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.cs2340_project.R;
 import com.example.cs2340_project.model.Meal;
 import com.example.cs2340_project.viewmodels.FoodDatabase;
+import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class InputMealActivity extends AppCompatActivity {
 
@@ -22,7 +25,6 @@ public class InputMealActivity extends AppCompatActivity {
     private EditText mealName;
     private EditText mealCalorie;
     private FirebaseAuth auth;
-    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class InputMealActivity extends AppCompatActivity {
         Button recipeActivityButton = findViewById(R.id.recipeActivityButton);
         Button shoppingListActivityButton = findViewById(R.id.shoppingListActivityButton);
         foodDatabase = FoodDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
 
 
         //Sprint 2 Task 2:
@@ -53,10 +56,10 @@ public class InputMealActivity extends AppCompatActivity {
                 return;
             }
 
-            int intCalorieText = Integer.parseInt(calorieText);
+            int intCalorieText;
 
             try {
-            intCalorieText = Integer.parseInt(calorieText);
+                intCalorieText = Integer.parseInt(calorieText);
             } catch (NumberFormatException e) {
               Toast.makeText(InputMealActivity.this, "Calories must include only numbers.",
                        Toast.LENGTH_SHORT).show();
@@ -66,17 +69,15 @@ public class InputMealActivity extends AppCompatActivity {
 
             if (auth.getCurrentUser() != null) {
                 String userId = auth.getCurrentUser().getUid();
-                Meal meal = new Meal(nameText, intCalorieText);
 
-                // Save the meal under the user's ID in Firebase
-                databaseReference.child("Meals").child(userId).push().setValue(meal)
+                foodDatabase.addMeal(nameText, intCalorieText, userId)
                         .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(InputMealActivity.this, "Meal added successfully", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(InputMealActivity.this, "Failed to add meal", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                    if (task.isSuccessful()) {
+                        Toast.makeText(InputMealActivity.this, "Meal added successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(InputMealActivity.this, "Failed to add meal", Toast.LENGTH_SHORT).show();
+                    }
+                });;
             } else {
                 Toast.makeText(InputMealActivity.this, "User not logged in", Toast.LENGTH_SHORT).show();
             }

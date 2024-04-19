@@ -39,6 +39,56 @@ public class PersonalInfoActivity extends AppCompatActivity {
         });
 
         // Navigation buttons setup here as previously
+
+        Button homeActivityButton = findViewById(R.id.homeActivityButton);
+        Button ingredientActivityButton = findViewById(R.id.ingredientActivityButton);
+        Button inputMealActivityButton = findViewById(R.id.inputMealActivityButton);
+        Button recipeActivityButton = findViewById(R.id.recipeActivityButton);
+        Button shoppingListActivityButton = findViewById(R.id.shoppingListActivityButton);
+
+        homeActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PersonalInfoActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ingredientActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PersonalInfoActivity.this, IngredientActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        inputMealActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PersonalInfoActivity.this, InputMealActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        recipeActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PersonalInfoActivity.this, RecipeActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        shoppingListActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PersonalInfoActivity.this, ShoppingListActivity.class);
+                startActivity(intent);
+
+            }
+        });
     }
 
     private void saveUserInfo() {

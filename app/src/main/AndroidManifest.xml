@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.cs2340_project">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -14,6 +15,7 @@
         android:theme="@style/Theme.CS2340_Project"
         tools:targetApi="31">
 
+        <activity android:name=".views.AdjustIngredientActivity"/>
         <activity
             android:name=".views.SplashScreenActivity"
             android:exported="true">
@@ -31,9 +33,14 @@
         <activity android:name=".views.InputMealActivity" android:exported="true" />
         <activity android:name=".views.RecipeActivity" android:exported="true" />
         <activity android:name=".views.ShoppingListActivity" android:exported="true" />
+        <activity android:name=".views.ShoppingForm" android:exported="true"/>
         <activity android:name=".views.PersonalInfoActivity" android:exported="true" />
+        <activity android:name=".views.IngredientForm" android:exported="true" />
+        <activity android:name=".views.SortSelectionActivity" android:exported="true" />
+        <activity android:name=".views.AddRecipeActivity" android:exported="true" />
+        <activity android:name=".views.RecipeDetailsActivity" android:exported="true" />
+
 
     </application>
 
 </manifest>
-

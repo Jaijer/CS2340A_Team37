@@ -11,9 +11,18 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cs2340_project.R;
+import com.example.cs2340_project.viewmodels.FoodDatabase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class HomeActivity extends AppCompatActivity {
+    private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private final DatabaseReference foodRef = FoodDatabase.getInstance().getFoodRef();
+
 
 
     @Override
@@ -28,6 +37,30 @@ public class HomeActivity extends AppCompatActivity {
         Button recipeActivityButton = findViewById(R.id.recipeActivityButton);
         Button shoppingListActivityButton = findViewById(R.id.shoppingListActivityButton);
         ImageView profilePic = findViewById(R.id.profilePic);
+        TextView caloriesTracker = findViewById(R.id.tracker);
+
+
+        //show calories
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        DatabaseReference userCalories = foodRef.child("Users").child(userId).child("calories");
+
+        userCalories.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("ondatachange");
+                try {
+                    Long calories = dataSnapshot.getValue(Long.class);
+                    if(calories == null) {
+                        calories = Long.parseLong("0");
+                    }
+                    caloriesTracker.setText(String.valueOf(calories));
+                } catch (Exception err) {
+                    System.out.println(err);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
 
 
         profilePic.setOnClickListener(new View.OnClickListener() {
