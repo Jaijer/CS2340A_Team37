@@ -9,13 +9,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cs2340_project.R;
 import com.example.cs2340_project.model.Ingredient;
+import com.example.cs2340_project.model.Recipe;
+import com.example.cs2340_project.viewmodels.DataObserver;
 import com.example.cs2340_project.viewmodels.FoodDatabase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AddRecipeActivity extends AppCompatActivity {
+public class AddRecipeActivity extends AppCompatActivity implements DataObserver<Recipe> {
     private EditText recipeName;
     private EditText ingredientsNames;
     private EditText ingredientsQuantities;
@@ -29,6 +31,7 @@ public class AddRecipeActivity extends AppCompatActivity {
 
         // Connect Database
         foodDatabase = FoodDatabase.getInstance();
+        foodDatabase.addRecipeObserver(this);
 
         // Connect EditTexts
         recipeName = findViewById(R.id.name);
@@ -93,9 +96,8 @@ public class AddRecipeActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
                 return;
             }
-
             foodDatabase.addRecipeToCookbook(nameText, ingredients, totalCaloriesValue);
-            Toast.makeText(AddRecipeActivity.this, "Recipe added successfully.", Toast.LENGTH_SHORT).show();
+            onDataUpdated(new Recipe(nameText, ingredients, totalCaloriesValue));
 
             recipeName.getText().clear();
             ingredientsNames.getText().clear();
@@ -106,5 +108,13 @@ public class AddRecipeActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(v -> {
             finish();
         });
+    }
+
+    @Override
+    public void onDataUpdated(Recipe recipe) {
+        showRecipeAddedMessage(recipe.getName());
+    }
+    private void showRecipeAddedMessage(String recipeName) {
+        Toast.makeText(this, "Recipe '" + recipeName + "' added successfully.", Toast.LENGTH_SHORT).show();
     }
 }
