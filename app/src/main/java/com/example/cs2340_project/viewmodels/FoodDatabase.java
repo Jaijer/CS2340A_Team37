@@ -27,6 +27,7 @@ public class FoodDatabase extends ViewModel {
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private List<DataObserver<Recipe>> recipeObservers = new ArrayList<>();
 
+    // We are using the observer pattern right here to listen for changes in the recipes list
     public void addRecipeObserver(DataObserver<Recipe> observer) {
         recipeObservers.add(observer);
     }
