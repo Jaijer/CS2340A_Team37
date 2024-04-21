@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.cs2340_project.R;
 import com.example.cs2340_project.model.Ingredient;
 import com.example.cs2340_project.viewmodels.FoodDatabase;
-import com.google.firebase.auth.FirebaseAuth;
 
 
 import java.util.ArrayList;
@@ -21,8 +20,6 @@ import java.util.List;
 
 
 public class RecipeDetailsActivity extends AppCompatActivity {
-
-    private FoodDatabase foodDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,22 +61,13 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
         // Handle close button click
         closeButton.setOnClickListener(v -> finish());
-
-        ingButton.setOnClickListener(v -> {
-            foodDatabase = FoodDatabase.getInstance();
-            for (String ingredientStr : recipeIngredientsArray) {
-                // Split each ingredient by the first digit (assuming the quantity always starts with a digit)
-                String[] parts = ingredientStr.split("(?<=\\d)(?=\\D)");
-                int quantity = Integer.parseInt(parts[0]);
-                String name = parts[1];
-                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                foodDatabase.addIngredient(name, quantity, 100, userId);
-                Ingredient ingredient = new Ingredient(name.trim(), quantity, 0);
-                recipeIngredients.add(ingredient);
+        ingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
-
         });
-
     }
+
+    private FoodDatabase foodDatabase;
 }
