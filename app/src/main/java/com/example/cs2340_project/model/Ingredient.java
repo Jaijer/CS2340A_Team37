@@ -7,8 +7,6 @@ public class Ingredient implements Parcelable{
     private String name;
     private Integer quantity;
     private Integer calories;
-    private boolean selected;
-
     public Ingredient() {
         // The code will break if you remove this.
     }
@@ -67,12 +65,5 @@ public class Ingredient implements Parcelable{
         dest.writeString(name);
         dest.writeValue(quantity);
         dest.writeValue(calories);
-    }
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
     }
 }
