@@ -94,6 +94,10 @@ public class FoodDatabase extends ViewModel {
         return foodRef.child("Pantry").child(userId).get();
     }
 
+    public Task<DataSnapshot> getIngredientsForCart(String userId) {
+        // Retrieve ingredients for the given user from the database
+        return foodRef.child("Cart").child(userId).get();
+    }
     public void addCaloriesToUser(int calories) {
         String userId = firebaseAuth.getCurrentUser().getUid();
         DatabaseReference userCalories = foodRef.child("Users").child(userId).child("calories");
