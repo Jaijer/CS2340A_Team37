@@ -36,6 +36,7 @@ public class ShoppingListActivity extends AppCompatActivity {
         Button shoppingListActivityButton = findViewById(R.id.shoppingListActivityButton);
         Button addCartButton = findViewById(R.id.addCartBtn);
         Button sortCartButton = findViewById(R.id.sortCartBtn);
+        Button buySelectedButton = findViewById(R.id.buySelectedButton);
         List<Ingredient> ingredients = new ArrayList<>();
         boolean defaultSort = true;
 
@@ -97,7 +98,26 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         // Set OnClickListener for Sort By Button
         List<Ingredient> finalCart = ingredients;
+        List<Ingredient> finalIngredients = ingredients;
+        buySelectedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create a list to store selected ingredients
+                List<Ingredient> selectedIngredients = new ArrayList<>();
 
+                // Iterate through the list of ingredients and add selected ones to the list
+                for (Ingredient ingredient : finalIngredients) {
+                    if (ingredient.isSelected()) {
+                        selectedIngredients.add(ingredient);
+                    }
+                }
+
+                // Log the selected ingredients
+                for (Ingredient ingredient : selectedIngredients) {
+                    Log.d("ShoppingListActivity", "Selected ingredient: " + ingredient.getName());
+                }
+            }
+        });
         sortCartButton.setOnClickListener(v -> {
             Intent newIntent = new Intent(ShoppingListActivity.this, SortSelectionActivity.class);
             newIntent.putParcelableArrayListExtra("ingredients", (ArrayList<? extends Parcelable>) finalCart);
@@ -109,8 +129,6 @@ public class ShoppingListActivity extends AppCompatActivity {
             newIntent.putParcelableArrayListExtra("cartIngredients", (ArrayList<? extends Parcelable>) finalCart);
             startActivity(newIntent);
         });
-
-
 
         homeActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override

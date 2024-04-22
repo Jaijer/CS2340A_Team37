@@ -6,14 +6,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cs2340_project.R;
 import com.example.cs2340_project.model.Ingredient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
 public class ShoppingAdapter extends ArrayAdapter<Ingredient> {
+    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+    DatabaseReference pantryRef = FirebaseDatabase.getInstance().getReference().child("Pantry").child(userId);
+
     private Context mContext;
     private List<Ingredient> mIngredientList;
     public ShoppingAdapter(Context context, List<Ingredient> ingredientList) {
@@ -29,32 +38,28 @@ public class ShoppingAdapter extends ArrayAdapter<Ingredient> {
             listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item_layout, parent, false);
         }
 
-        // Get the current ingredient
         Ingredient currentIngredient = mIngredientList.get(position);
 
-        // Null check for currentIngredient
         if (currentIngredient != null) {
-            // Populate the TextViews with ingredient information
             TextView nameTextView = listItem.findViewById(R.id.nameTextView);
             TextView quantityTextView = listItem.findViewById(R.id.quantityTextView);
             TextView caloriesTextView = listItem.findViewById(R.id.caloriesTextView);
+            Button shopButton = listItem.findViewById(R.id.shopButton);
 
             nameTextView.setText(currentIngredient.getName());
-            quantityTextView.setText(String.valueOf("Quantity: " + currentIngredient.getQuantity()));
-            caloriesTextView.setText(String.valueOf(currentIngredient.getCalories() + " cal."));
+            quantityTextView.setText("Quantity: " + currentIngredient.getQuantity());
+            caloriesTextView.setText(currentIngredient.getCalories() + " cal.");
 
-            // Set OnClickListener to the list item
-            listItem.setOnClickListener(new View.OnClickListener() {
+            shopButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Create an Intent to start AdjustIngredientActivity
-                    Intent intent = new Intent(mContext, AdjustIngredientActivity.class);
+                    String key = pantryRef.push().getKey();
+                    pantryRef.child(key).setValue(new Ingredient(currentIngredient.getName(), currentIngredient.getQuantity(), 100)); // Assuming calorie value is 100 for all new entries
+                    Toast.makeText(mContext, "Added " + currentIngredient.getName() + " to cart", Toast.LENGTH_SHORT).show();
+                    mIngredientList.remove(currentIngredient);
+                    notifyDataSetChanged();
 
-                    // Pass the selected Ingredient object to AdjustIngredientActivity
-                    intent.putExtra("ingredient", currentIngredient);
 
-                    // Start the AdjustIngredientActivity
-                    mContext.startActivity(intent);
                 }
             });
         }

@@ -84,8 +84,10 @@
         android:text="Add"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shoppingListHeaderTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/shoppingListHeaderTextView"
+        app:layout_constraintVertical_bias="0.2" />
 
     <Button
         android:id="@+id/sortCartBtn"
@@ -96,7 +98,9 @@
         android:text="Sort By"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/shoppingListHeaderTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/shoppingListHeaderTextView"
+        app:layout_constraintVertical_bias="0.2" />
+
 
     <TextView
         android:id="@+id/textView3"
@@ -111,18 +115,35 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toStartOf="@+id/sortCartBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shoppingListHeaderTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/shoppingListHeaderTextView"
+        app:layout_constraintVertical_bias="0.309" />
 
     <ListView
         android:id="@+id/cartListView"
         android:layout_width="405dp"
-        android:layout_height="586dp"
+        android:layout_height="534dp"
         android:layout_marginStart="3dp"
         android:layout_marginEnd="3dp"
         android:background="#8BC34A"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shoppingListHeaderTextView"
-        app:layout_constraintVertical_bias="0.515" />
+        app:layout_constraintVertical_bias="0.324" />
+
+    <Button
+        android:id="@+id/buySelectedButton"
+        android:layout_width="380dp"
+        android:layout_height="43dp"
+        android:backgroundTint="#673AB7"
+        android:text="Buy Selected"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
