@@ -56,6 +56,20 @@ public class ShoppingForm extends AppCompatActivity{
                     Toast.LENGTH_SHORT).show();
             return;
         }
+
+        Intent intent = getIntent();
+
+        if (intent != null && intent.hasExtra("cartIngredients")) {
+            List<Ingredient> ingredients = intent.getParcelableArrayListExtra("cartIngredients");
+            assert ingredients != null;
+            for (Ingredient ingredient : ingredients) {
+                if (ingredient.getName().trim().equalsIgnoreCase(nameText)) {
+                    Toast.makeText(ShoppingForm.this, "Duplicate ingredients not allowed.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        }
         
 
         int intQuantityText;
