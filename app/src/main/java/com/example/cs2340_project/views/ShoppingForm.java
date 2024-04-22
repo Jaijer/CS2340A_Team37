@@ -110,7 +110,7 @@ public class ShoppingForm extends AppCompatActivity{
             foodDatabase.addCart(nameText, intQuantityText, intCalories, userId)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            Toast.makeText(ShoppingForm.this, "Ingredient added successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ShoppingForm.this, "Ingredient added to cart", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(ShoppingForm.this, "Failed to add ingredient", Toast.LENGTH_SHORT).show();
                         }
