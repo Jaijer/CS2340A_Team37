@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.example.cs2340_project.R;
 import com.example.cs2340_project.model.Ingredient;
+import com.example.cs2340_project.model.Recipe;
 import com.example.cs2340_project.views.IngredientActivity;
 import com.example.cs2340_project.views.IngredientAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,5 +33,10 @@ public class ByDateSort implements SortingStrategies {
         }
 
         return ingredients;
+    }
+
+    @Override
+    public List<Recipe> sortRecipe(List<Recipe> recipes) {
+        return recipes;
     }
 }
