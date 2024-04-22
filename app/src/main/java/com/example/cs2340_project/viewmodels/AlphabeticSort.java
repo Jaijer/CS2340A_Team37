@@ -3,6 +3,7 @@ package com.example.cs2340_project.viewmodels;
 import android.util.Log;
 
 import com.example.cs2340_project.model.Ingredient;
+import com.example.cs2340_project.model.Recipe;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,5 +26,16 @@ public class AlphabeticSort implements SortingStrategies {
         }
 
         return ingredients;
+    }
+
+    @Override
+    public List<Recipe> sortRecipe(List<Recipe> recipes) {
+        Collections.sort(recipes, new Comparator<Recipe>() {
+            @Override
+            public int compare(Recipe recipe1, Recipe recipe2) {
+                return recipe1.getName().compareToIgnoreCase(recipe2.getName());
+            }
+        });
+        return recipes;
     }
 }
